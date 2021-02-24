@@ -1,3 +1,4 @@
+import pandas as pd
 """
 Checkpoint 1b
 
@@ -16,26 +17,35 @@ you can import this file and its functions directly:
 Once you are finished with this program, you should run `python preprocess.py` from the terminal.
 This should load the data, perform preprocessing, and save the output to the data folder.
 
-"""
+""" 
+def fix(string):
+    ret = ''
+    for c in string:
+        if c.isalpha() or c == ' ':
+            ret += c
+    return ret.lower()
 
 def remove_percents(df, col):
+    df[col] = [float(string[:len(string)-1]) if string == string else string for string in df[col]]
     return df
 
 def fill_zero_iron(df):
+    df['Iron (% DV)'] = [0.0 if string != string else string for string in df['Iron (% DV)']]
     return df
-    
+
 def fix_caffeine(df):
+    df['Caffeine (mg)'] = [2000 if string == 'varies' or string == 'Varies' else string for string in df['Caffeine (mg)']]
     return df
 
 def standardize_names(df):
+    df.columns = [col[:col.index('(')-1].lower() if '(' in col else col.lower() for col in df.columns]
     return df
 
 def fix_strings(df, col):
+    df[col] = [fix(string) for string in df[col]]
     return df
 
-
 def main():
-    
     # first, read in the raw data
     df = pd.read_csv('../data/starbucks.csv')
     
@@ -66,8 +76,7 @@ def main():
     
     # now that the data is all clean, save your output to the `data` folder as 'starbucks_clean.csv'
     # you will use this file in checkpoint 2
-    
-    
+    df.to_csv('starbucks_clean.csv',index = False)
 
 if __name__ == "__main__":
     main()
