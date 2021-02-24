@@ -76,7 +76,7 @@ def main():
     
     # now that the data is all clean, save your output to the `data` folder as 'starbucks_clean.csv'
     # you will use this file in checkpoint 2
-    df.to_csv('starbucks_clean.csv',index = False)
+    df.to_csv('../data/starbucks_clean.csv',index = False)
 
 if __name__ == "__main__":
     main()
